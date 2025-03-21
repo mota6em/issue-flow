@@ -18,7 +18,7 @@ const NavBar = () => {
     localStorage.setItem("theme", theme);
   }, [theme]);
   return (
-    <div className="flex items-center justify-between space-x-8 h-12 border-b px-10 overflow-x-hidden">
+    <div className="flex items-center justify-between space-x-8 h-12 border-b px-10 pe-5 overflow-x-hidden">
       <div className="flex items-center space-x-10">
         <Link href="/">
           <IoBugOutline size={32} />
@@ -45,7 +45,27 @@ const NavBar = () => {
             <Link href="/api/auth/signin">Login</Link>
           )}
           {status === "authenticated" && (
-            <Link href="/api/auth/signout">Logout</Link>
+            <div className="fixed top-1 right-32 z-50 dropdown dropdown-end">
+              <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+                <div className="w-8 rounded-full">
+                  <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+                </div>
+              </label>
+              <ul
+                tabIndex={0}
+                className="menu dropdown-content bg-base-100 rounded-box space-y-2 z-50 w-52 p-2 shadow"
+              >
+                <div className="flex flex-col bg-base-200 space-y-1.5 p-2 rounded-sm">
+                  <span className="px-2 text-md">{session?.user?.name}</span>
+                  <span className="px-3 text-sm text-gray-500">
+                    {session?.user?.email}
+                  </span>
+                </div>
+                <li>
+                  <Link href="/api/auth/signout">Logout</Link>
+                </li>
+              </ul>
+            </div>
           )}
         </div>
         <button className="flex items-center">
