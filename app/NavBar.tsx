@@ -7,7 +7,7 @@ import classNames from "classnames";
 import { useSession } from "next-auth/react";
 const NavBar = () => {
   return (
-    <div className="flex items-center justify-between space-x-8 h-12 border-b px-10 pe-5 overflow-x-hidden">
+    <div className="fixed top-0 left-0 z-50 w-full backdrop-blur-3xl flex items-center justify-between space-x-8 h-12 border-b px-10 pe-5 overflow-x-hidden">
       <NavBarLinks />
       <div className="flex items-center space-x-5">
         <AuthStatus />
@@ -23,7 +23,7 @@ const AuthStatus = () => {
   const { status, data: session } = useSession();
 
   if (status === "loading") {
-    return <div className="skeleton h-8 w-8 shrink-0 rounded-full"></div>;
+    return <div className="skeleton h-5 w-10 p-0"></div>;
   }
   if (status === "unauthenticated") {
     return (
