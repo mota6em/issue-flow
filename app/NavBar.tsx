@@ -48,7 +48,7 @@ const NavBar = () => {
             <div className="fixed top-1 right-32 z-50 dropdown dropdown-end">
               <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                 <div className="w-8 rounded-full">
-                  <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+                  <img src={session?.user?.image} />
                 </div>
               </label>
               <ul
