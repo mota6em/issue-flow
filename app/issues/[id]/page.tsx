@@ -6,10 +6,13 @@ import ReactMarkDown from "react-markdown";
 import { FaRegEdit } from "react-icons/fa";
 import Link from "next/link";
 import DeleteIssueButton from "../_components/DeleteIssueButton";
+import { getServerSession } from "next-auth";
+import authOptions from "@/app/auth/authOptions";
 interface Props {
   params: { id: string };
 }
 const IssueDetailPage = async ({ params }: Props) => {
+  const status = await getServerSession(authOptions);
   const issue = await prisma.issue.findUnique({
     where: {
       id: parseInt(params.id),
@@ -34,16 +37,18 @@ const IssueDetailPage = async ({ params }: Props) => {
           <ReactMarkDown>{issue.description}</ReactMarkDown>
         </div>
       </div>
-      <div className="w-full px-5 md:w-2/12 flex flex-col items-center justify-center">
-        <Link
-          href={`/issues/${issue.id}/edit`}
-          className="btn w-full m-4 btn-primary"
-        >
-          Edit Issue <FaRegEdit />
-        </Link>
+      {status && (
+        <div className="w-full px-5 md:w-2/12 flex flex-col items-center justify-center">
+          <Link
+            href={`/issues/${issue.id}/edit`}
+            className="btn w-full m-4 btn-primary"
+          >
+            Edit Issue <FaRegEdit />
+          </Link>
 
-        <DeleteIssueButton issueId={ issue.id} />
-      </div>
+          <DeleteIssueButton issueId={issue.id} />
+        </div>
+      )}
     </div>
   );
 };

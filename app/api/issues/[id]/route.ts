@@ -1,11 +1,20 @@
+import authOptions from "@/app/auth/authOptions";
 import { IssueSchema } from "@/app/localTSfiles/schemas";
 import prisma from "@/prisma/client";
+import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function PATCH(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    return NextResponse.json(
+      { error: "You must be logged in to update an issue" },
+      { status: 401 }
+    );
+  }
   const body = await req.json();
   const validation = IssueSchema.safeParse(body);
   if (!validation.success) {
@@ -31,11 +40,17 @@ export async function PATCH(
   return NextResponse.json(updatedIssue, { status: 200 });
 }
 
-
 export async function DELETE(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    return NextResponse.json(
+      { error: "You must be logged in to delete an issue" },
+      { status: 401 }
+    );
+  }
   try {
     const issueId = Number(params.id);
     if (isNaN(issueId)) {
